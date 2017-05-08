@@ -267,6 +267,8 @@ public class DAA_observe_events {
         int[] inputArray;
         int arraySize;
 
+        System.out.println( "inputArraySize, resultSetSize, ExecutionTime" );
+
         for (int x = 1; x < maxSize ; x=x*10){
             for (int y = 1; y <= 10 ; y++){
                 arraySize=x*y;
