@@ -25,25 +25,7 @@ import java.util.Random;
 public class DAA_observe_events {
 
 
-    public ArrayList<Integer> reverse(ArrayList<Integer> list) {
-        if (list.size() > 1) {
-            Integer value = list.remove(0);
-            reverse(list);
-            list.add(value);
-        }
-        return list;
-    }
 
-    //generate random value between max and min
-    private static int getRandomNumberInRange(int min, int max) {
-
-        if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
-
-        Random r = new Random();
-        return r.nextInt((max - min) + 1) + min;
-    }
 
 
     //solution based on LIS - Longest Increasing Subset
@@ -121,7 +103,7 @@ public class DAA_observe_events {
             }
         }
 
-        return reverse(resultArray);
+        return AuxTools.reverse(resultArray);
     }
 
 
@@ -153,7 +135,7 @@ public class DAA_observe_events {
                     inputArray = new int[N];
 
                     for (int n = 0; n < N; n++) {
-                        inputArray[n] = getRandomNumberInRange( (N*-1) , N );;
+                        inputArray[n] = AuxTools.getRandomNumberInRange( (N*-1) , N );;
                     }
 
                     //user feedback
