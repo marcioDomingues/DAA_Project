@@ -266,7 +266,7 @@ public class DAA_observe_events {
         int[] inputArray;
         int arraySize;
 
-        for (int x = 1; x <= maxSize ; x=x*10){
+        for (int x = 1; x < maxSize ; x=x*10){
             for (int y = 1; y <= 10 ; y++){
                 arraySize=x*y;
 
@@ -275,7 +275,7 @@ public class DAA_observe_events {
                 inputArray = new int[arraySize];
 
                 //do 20 cicles per array size
-                for (nLoops = 0; nLoops <= 20 ; nLoops++) {
+                for (int m = 0; m < nLoops ; m++) {
                     for (int n = 0; n < arraySize; n++) {
                         inputArray[n] = AuxTools.getRandomNumberInRange((arraySize * -1), arraySize);
                     }
