@@ -182,7 +182,8 @@ public class DAA_observe_events {
                             "\tThis is a verbose mode i will generate arrays of incressing\n" +
                             "\tsize until M, in multiple of ten increments, and will generate and run\n" +
                             "\tK random arrays for every array size \n" +
-                            "\n\tExample: java DAA_observe_events -v 10000 20\n");
+                            "\n\tExample: java DAA_observe_events -v 10000 20\n" +
+                            "\nThe output will be a triplet in the format  inputArraysize,SolutionSize,timeOfExecution  \n" );
 
 
 
@@ -270,7 +271,7 @@ public class DAA_observe_events {
             for (int y = 1; y <= 10 ; y++){
                 arraySize=x*y;
 
-                System.out.println("\nINPUT SIZE: " + arraySize);
+                //System.out.println("\nINPUT SIZE: " + arraySize);
 
                 inputArray = new int[arraySize];
 
@@ -297,9 +298,11 @@ public class DAA_observe_events {
                     long estimatedTime = System.currentTimeMillis() - startTime;
 
 
-                    System.out.println("Number of observed events: " + res.size());
+                    //System.out.println("Number of observed events: " + res.size());
                     //System.out.println("Observable Events: " + res);
-                    System.out.println("Execution Time: " + estimatedTime);
+                    //System.out.println("Execution Time: " + estimatedTime);
+
+                    System.out.println( arraySize+","+res.size()+","+estimatedTime );
 
                 }
 
