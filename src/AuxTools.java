@@ -6,7 +6,7 @@ import java.util.Random;
  */
 public class AuxTools {
 
-    private static final int MegaBytes = 1024 * 1024;
+    public static final int MegaBytes = 1024 * 1024;
 
 
     public static ArrayList<Integer> reverse(ArrayList<Integer> list) {

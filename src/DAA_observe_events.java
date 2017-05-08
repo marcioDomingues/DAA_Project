@@ -25,9 +25,6 @@ import java.util.Random;
 public class DAA_observe_events {
 
 
-
-
-
     //solution based on LIS - Longest Increasing Subset
     //Using a bottom-up iteractive solution
     public ArrayList<Integer> findMaxObservableEvents(int[] angles) {
@@ -110,11 +107,11 @@ public class DAA_observe_events {
     public static void main(String[] args) {
 
         int[] inputArray = new int[9];
-        ;
         //type of execution
         if (args.length == 0) {
             System.out.println("No option selected the next example will be used");
-            System.out.println(" 1 -4 -1 4 5 -4 6 7 -2");
+            System.out.println(" 1 -4 -1 4 5 -4 6 7 -2\n");
+            System.out.println("Please use -h for options");
             inputArray[0] = 1;
             inputArray[1] = -4;
             inputArray[2] = -1;
@@ -124,6 +121,7 @@ public class DAA_observe_events {
             inputArray[6] = 6;
             inputArray[7] = 7;
             inputArray[8] = -2;
+
 
         } else {
 
@@ -135,7 +133,7 @@ public class DAA_observe_events {
                     inputArray = new int[N];
 
                     for (int n = 0; n < N; n++) {
-                        inputArray[n] = AuxTools.getRandomNumberInRange( (N*-1) , N );;
+                        inputArray[n] = AuxTools.getRandomNumberInRange( (N*-1) , N );
                     }
 
                     //user feedback
@@ -158,9 +156,25 @@ public class DAA_observe_events {
                     }
 
                     break;
-                default:
-                    System.out.println("wrong input");
+                case "-h":
 
+                    System.out.println(" USAGE:\n" +
+                            "$java DAA_observe_events \n\t will use a predifined array as example.\n" +
+
+                            "\n$java DAA_observe_events -r N \n" +
+                            "\tGenerates problem with N items with random values from -N to N degrees \n" +
+                            "\tThis way it will always be possible to visit the last event\n" +
+                            "\n\tExample: java DAA_observe_events -l 1 -4 -1 4 5 -4 6 7 -2 \n" +
+
+                            "\n$java DAA_observe_events -l a b c d e ..... n\n" +
+                            "\tThe user will input a list of angles separated by space\n" +
+                            "\n\tExample: java DAA_observe_events -r 10000\n" );
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("wrong input. Please use -h for options");
+
+                    System.exit(0);
                     break;
             }
         }
@@ -171,9 +185,9 @@ public class DAA_observe_events {
         //int[] inputArray = {3, 2, -3, -2, -1, 0};
         //int[] inputArray = {1, -4, -1, 4, 5, -4, 6, 7, -2};
 
+        System.out.println("\nSTARTING_\n");
 
         //include the initial position of the telescope
-
         int[] angles = new int[inputArray.length + 1];
         //copy input values into new array
         angles[0] = 0;
@@ -184,22 +198,35 @@ public class DAA_observe_events {
 
         DAA_observe_events i = new DAA_observe_events();
 
+
+        long totalMemory = Runtime.getRuntime().totalMemory() / AuxTools.MegaBytes;
+        long maxMemory = Runtime.getRuntime().maxMemory() / AuxTools.MegaBytes;
+        long freeMemory = Runtime.getRuntime().freeMemory() / AuxTools.MegaBytes;
+
+        System.out.println("**** Heap utilization Analysis [MB] ****");
+        System.out.println("JVM totalMemory also equals to initial heap size of JVM :"+ totalMemory);
+        System.out.println("JVM maxMemory also equals to maximum heap size of JVM: "+ maxMemory);
+        System.out.println("JVM freeMemory: " + freeMemory);
+
         long startTime = System.currentTimeMillis();
         ArrayList<Integer> res = i.findMaxObservableEvents(angles);
         long estimatedTime = System.currentTimeMillis() - startTime;
 
-        System.out.println("Result: " + res);
+        System.out.println(" ");
 
+        System.out.println("Result: " + res);
         System.out.println("Execution Time: " + estimatedTime);
 
-        // Get the Java runtime
-        Runtime runtime = Runtime.getRuntime();
-// Run the garbage collector
-        runtime.gc();
-// Calculate the used memory
-        long memory = runtime.totalMemory() - runtime.freeMemory();
-        System.out.println("Used memory is bytes: " + memory);
-        System.out.println("Used memory is megabytes: " + memory / (1024L * 1024L) );
+        totalMemory = Runtime.getRuntime().totalMemory() / AuxTools.MegaBytes;
+        maxMemory = Runtime.getRuntime().maxMemory() / AuxTools.MegaBytes;
+        freeMemory = Runtime.getRuntime().freeMemory() / AuxTools.MegaBytes;
+
+        System.out.println(" ");
+
+        System.out.println("Used Memory in JVM: " + (maxMemory - freeMemory));
+        System.out.println("totalMemory in JVM shows current size of java heap:"+totalMemory);
+        System.out.println("maxMemory in JVM: " + maxMemory);
+        System.out.println("freeMemory in JVM: " + freeMemory);
 
 
     }
