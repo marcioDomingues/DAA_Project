@@ -1,8 +1,7 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 /******************************************************************************
- *  Compilation:  javac DAA_observe_events.java
+ *  Compilation:  javac DAA_observe_events.java AuxTools.java
  *  Executions:
  *          java DAA_observe_events
  *
@@ -13,21 +12,33 @@ import java.util.Random;
  *              Generates problem with N items with random values from -N to N degrees
  *              This way it will always be possible to visit the last event
  *
+ *              Example
+ *                  java DAA_observe_events -l 1 -4 -1 4 5 -4 6 7 -2
+ *
  *          java DAA_observe_events -l a b c d e ..... n
  *
  *              The user will input a list of angles separated by space
  *
- *              example
- *               java DAA_observe_events -l 1 -4 -1 4 5 -4 6 7 -2
+ *              Example
+ *                  java DAA_observe_events -r 10000
+ *
+ *          java DAA_observe_events -v M K
+ *              This is a verbose mode i will generate arrays of incressing
+ *              size until M, in multiple of ten increments, and will generate and run
+ *              K random arrays for every array size
+ *
+ *              Example:
+ *                 java DAA_observe_events -v 10000 20
+ *
+ *              The output will be a triplet in the format  inputArraysize,SolutionSize,timeOfExecution
  *
  * * Created by mdo on 5/7/17.
  ******************************************************************************/
 public class DAA_observe_events {
-
-
     //solution based on LIS - Longest Increasing Subset
     //Using a bottom-up iteractive solution
     public ArrayList<Integer> findMaxObservableEvents(int[] angles) {
+
         //LPE = Longest Subset of Possible Events
         //AUX list to mark the chosen events
         int[] LSPE = new int[angles.length];
@@ -38,7 +49,7 @@ public class DAA_observe_events {
             //verify if its possible to go from initial telescope position to event i
             //and
             //verify if its possible to go from event i to event last event that we need to visit
-            if (Math.abs(angles[i] - angles[angles.length - 1]) <= (angles.length - 1) - i && (Math.abs(angles[i] - 0) <= i + 1)) {
+            if (Math.abs(angles[i] - angles[angles.length - 1]) <= (angles.length - 1) - i && (Math.abs(angles[i]) <= i + 1)) {
 
                 for (int j = 0; j <= i; j++) {
                     if (Math.abs(angles[j] - angles[i]) <= i - j) {
@@ -67,23 +78,6 @@ public class DAA_observe_events {
             }
         }
 
-        //TODO just for printing tests delete this
-        // Print the result
-        // Start moving backwards from the end and
-        String path = angles[index] + " ";
-        int res = result - 1;
-        for (int i = index - 1; i >= 0; i--) {
-            if (LSPE[i] == res) {
-                path = angles[i] + " " + path;
-                res--;
-            }
-        }
-
-        //TODO just for printing tests delete this
-        //System.out.println("LPSE: " + result);
-        //System.out.println("Actual Elements: " + path);
-
-
         //result set
         ArrayList<Integer> resultArray = new ArrayList<Integer>();
 
@@ -99,7 +93,6 @@ public class DAA_observe_events {
                 numberOfEvents--;
             }
         }
-
         return AuxTools.reverse(resultArray);
     }
 
@@ -140,7 +133,6 @@ public class DAA_observe_events {
 
                     normal_mode( inputArray );
 
-
                     break;
                 case "-l":
 
@@ -149,16 +141,16 @@ public class DAA_observe_events {
                     for (int i = 1; i < args.length; i++) {
                         inputArray[i - 1] = Integer.parseInt(args[i]);
                     }
-
                     normal_mode( inputArray );
 
                     break;
                 case "-v":
-                    int M = Integer.parseInt(args[1]);   // number of items
-                    int K = Integer.parseInt(args[2]);   // number of items
+
+                    int M = Integer.parseInt(args[1]);
+                    int K = Integer.parseInt(args[2]);
 
                     //M is the maximum size for the testing arrays
-                    //  should to be a multiple of 10
+                    // should to be a multiple of 10
                     //K is the number of runs for each array size
                     verbose_mode( M, K );
                     System.exit(0);
@@ -185,8 +177,6 @@ public class DAA_observe_events {
                             "\n\tExample: java DAA_observe_events -v 10000 20\n" +
                             "\nThe output will be a triplet in the format  inputArraysize,SolutionSize,timeOfExecution  \n" );
 
-
-
                     System.exit(0);
 
                     break;
@@ -196,11 +186,6 @@ public class DAA_observe_events {
                     break;
             }
         }
-
-
-
-
-
     }
 
     private static void normal_mode( int[] inputArray ) {
@@ -208,8 +193,6 @@ public class DAA_observe_events {
         //int[] inputArray = { 1, 12, 7, 0, 23, 11, 52, 31, 61, 69, 70, 2 };
         //int[] inputArray = {3, 2, -3, -2, -1, 0};
         //int[] inputArray = {1, -4, -1, 4, 5, -4, 6, 7, -2};
-
-        System.out.println("\nSTARTING_\n");
 
         //include the initial position of the telescope
         int[] angles = new int[inputArray.length + 1];
@@ -219,25 +202,22 @@ public class DAA_observe_events {
             angles[i + 1] = inputArray[i];
         }
 
-
         DAA_observe_events i = new DAA_observe_events();
-
 
         long totalMemory = Runtime.getRuntime().totalMemory() / AuxTools.MegaBytes;
         long maxMemory = Runtime.getRuntime().maxMemory() / AuxTools.MegaBytes;
         long freeMemory = Runtime.getRuntime().freeMemory() / AuxTools.MegaBytes;
 
-        System.out.println("**** Heap utilization Analysis [MB] ****");
-        System.out.println("JVM totalMemory also equals to initial heap size of JVM :"+ totalMemory);
-        System.out.println("JVM maxMemory also equals to maximum heap size of JVM: "+ maxMemory);
-        System.out.println("JVM freeMemory: " + freeMemory);
+        System.out.println("**** Utilização inicial de memoria MB ****");
+
+        System.out.println("Memoria total inicial:"+ totalMemory);
+        System.out.println("Memoria livre: " + freeMemory);
 
         long startTime = System.currentTimeMillis();
         ArrayList<Integer> res = i.findMaxObservableEvents(angles);
         long estimatedTime = System.currentTimeMillis() - startTime;
 
-
-
+        System.out.println("**** Utilização inicial de memoria MB após correr algoritmo ****");
         System.out.println(" ");
         System.out.println("Number of observed events: " + res.size());
         System.out.println("Observable Events: " + res);
@@ -251,14 +231,9 @@ public class DAA_observe_events {
 
         System.out.println(" ");
 
-        System.out.println("Used Memory in JVM: " + (maxMemory - freeMemory) );
-        System.out.println("totalMemory in JVM shows current size of java heap:"+totalMemory);
-        System.out.println("maxMemory in JVM: " + maxMemory);
-        System.out.println("freeMemory in JVM: " + freeMemory);
-
-
-        System.out.println(" ");
-        System.out.println(" ");
+        System.out.println("Memoria utilizada: " + (maxMemory - freeMemory) );
+        System.out.println("Memoria total após execução, tamanho final do heap: "+totalMemory);
+        System.out.println("fMemoria livre: " + freeMemory);
     }
 
 
@@ -272,8 +247,6 @@ public class DAA_observe_events {
         for (int x = 1; x < maxSize ; x=x*10){
             for (int y = 1; y <= 10 ; y++){
                 arraySize=x*y;
-
-                //System.out.println("\nINPUT SIZE: " + arraySize);
 
                 inputArray = new int[arraySize];
 
@@ -291,24 +264,14 @@ public class DAA_observe_events {
                         angles[i + 1] = inputArray[i];
                     }
 
-
                     DAA_observe_events i = new DAA_observe_events();
-
 
                     long startTime = System.currentTimeMillis();
                     ArrayList<Integer> res = i.findMaxObservableEvents(angles);
                     long estimatedTime = System.currentTimeMillis() - startTime;
 
-
-                    //System.out.println("Number of observed events: " + res.size());
-                    //System.out.println("Observable Events: " + res);
-                    //System.out.println("Execution Time: " + estimatedTime);
-
                     System.out.println( arraySize+","+res.size()+","+estimatedTime );
-
                 }
-
-
             }
         }
 
